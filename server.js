@@ -19,14 +19,18 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Import routes
 const contactRoutes = require('./routes/contact');
 const serviceRequestRoutes = require('./routes/serviceRequest');
+const authRoutes = require('./routes/auth/auth');
+const auth = require('./middleware/auth');
+const admin = require('./middleware/admin');
 
 app.get('/', (req, res) => {
   res.send('Property Management Backend');
 });
 
 // Use routes
-app.use('/api/contact', contactRoutes);
-app.use('/api/service-request', serviceRequestRoutes);
+app.use('/api/contact', auth, contactRoutes);
+app.use('/api/service-request', auth, serviceRequestRoutes);
+app.use('/api/auth', authRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
