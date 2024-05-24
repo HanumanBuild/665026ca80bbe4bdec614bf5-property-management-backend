@@ -16,9 +16,17 @@ mongoose.connect(process.env.MONGODB_URI, {
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.log(err));
 
+// Import routes
+const contactRoutes = require('./routes/contact');
+const serviceRequestRoutes = require('./routes/serviceRequest');
+
 app.get('/', (req, res) => {
   res.send('Property Management Backend');
 });
+
+// Use routes
+app.use('/api/contact', contactRoutes);
+app.use('/api/service-request', serviceRequestRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
